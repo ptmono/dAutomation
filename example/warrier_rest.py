@@ -10,7 +10,7 @@ import win32con
 
 import config
 import libs
-from controller import D3BackgroundController, D3ForegroundController, D3Controller, DWindowUtiles
+from controller import D3BackgroundController, D3ForegroundController, D3Controller, DWindowUtiles, Skills
 
 def MAKELONG(l,h):
     return ((h & 0xFFFF) << 16) | (l & 0xFFFF)
@@ -308,6 +308,17 @@ class Town(object):
 
         self.ctl.pickItems()
 
+
+    def setSkill(self):
+        if not self.isInMenu():
+            self.exitToMenu()
+        libs.sleep(800)
+        self.clickContinueGameButton()
+        self.waitTown()
+        libs.sleep(800)
+        self.ctl.setSkills(Skills.war_jump)
+        libs.sleep(800)
+        self.exitToMenu()        
             
 
 def main():
@@ -316,6 +327,8 @@ def main():
     win32gui.MoveWindow(d3w.hwnd, 0, 0, 800, 600, win32con.TRUE)
     controller = D3Controller(D3ForegroundController)
     town = Town(controller)
+    libs.sleep(1400)
+    town.setSkill()
 
     while 1:
         town.clickContinueGameButton()
